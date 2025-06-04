@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loja de Camisetas</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Loja de Camisetas</h1>
+    
+    <div class="form-container">
+      <h2>Adicionar Nova Camiseta</h2>
+      <form id="tshirt-form">
+        <input type="text" id="name" placeholder="Nome" required>
+        <input type="number" id="price" placeholder="Preço" step="0.01" required>
+        <input type="text" id="size" placeholder="Tamanho">
+        <input type="text" id="color" placeholder="Cor">
+        <button type="submit">Adicionar</button>
+      </form>
+    </div>
+
+    <div class="tshirts-container">
+      <h2>Camisetas Disponíveis</h2>
+      <ul id="tshirt-list"></ul>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
