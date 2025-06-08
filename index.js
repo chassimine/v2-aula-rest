@@ -40,7 +40,7 @@ app.get('/tshirt/:id', (req, res) => {
       return res.status(500).json({ error: err.message });
     }
     if (!row) {
-      return res.status(404).json({ message: 'T-shirt not found' });
+      return res.status(404).json({ message: 'Camiseta não encontrada' });
     }
     res.status(200).json(row);
   });
@@ -50,7 +50,7 @@ app.post('/tshirt', (req, res) => {
   const { name, price, size, color } = req.body;
   
   if (!name || !price) {
-    return res.status(400).json({ error: 'Name and price are required' });
+    return res.status(400).json({ error: 'Nome e preço são obrigatorios' });
   }
 
   db.run(
@@ -79,8 +79,8 @@ app.delete('/tshirt/:id', (req, res) => {
       return res.status(500).json({ error: err.message });
     }
     if (this.changes === 0) {
-      return res.status(404).json({ message: 'T-shirt not found' });
+      return res.status(404).json({ message: 'Não achamos essa camiseta' });
     }
-    res.status(200).json({ message: 'T-shirt deleted successfully' });
+    res.status(200).json({ message: 'Deletou' });
   });
 });
