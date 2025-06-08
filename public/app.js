@@ -1,11 +1,44 @@
 document.addEventListener('DOMContentLoaded', () => {
     const tshirtForm = document.getElementById('tshirt-form');
     const tshirtList = document.getElementById('tshirt-list');
+    const searchForm = document.getElementById('search-form');
+    const tshirtDetails = document.getElementById('tshirt-details');
     
-    // Carregar camisetas ao iniciar
     fetchTshirts();
+
+    searchForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const id = document.getElementById('search-id').value;
+      
+      if (!id) {
+        alert('Por favor, insira um ID válido');
+        return;
+      }
     
-    // Adicionar nova camiseta
+      try {
+        const response = await fetch(`/tshirt/${id}`);
+        
+        if (response.status === 404) {
+          tshirtDetails.innerHTML = '<p>Camiseta não encontrada</p>';
+          tshirtDetails.style.display = 'block';
+          return;
+        }
+        
+        if (!response.ok) {
+          throw new Error('Erro ao buscar camiseta');
+        }
+        
+        const tshirt = await response.json();
+        renderTshirtDetails(tshirt);
+        
+      } catch (err) {
+        console.error('Erro:', err);
+        tshirtDetails.innerHTML = '<p>Erro ao buscar camiseta</p>';
+        tshirtDetails.style.display = 'block';
+      }
+    });
+    
     tshirtForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       
@@ -36,7 +69,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
     
-    // Buscar camisetas da API
     async function fetchTshirts() {
       try {
         const response = await fetch('/tshirt');
@@ -46,8 +78,18 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Erro ao buscar camisetas:', err);
       }
     }
+
+    function renderTshirtDetails(tshirt) {
+      tshirtDetails.innerHTML = `
+        <h3>${tshirt.name}</h3>
+        <p><strong>ID:</strong> ${tshirt.id}</p>
+        <p><strong>Preço:</strong> R$${tshirt.price.toFixed(2)}</p>
+        <p><strong>Tamanho:</strong> ${tshirt.size || 'Não informado'}</p>
+        <p><strong>Cor:</strong> ${tshirt.color || 'Não informada'}</p>
+      `;
+      tshirtDetails.style.display = 'block';
+    }
     
-    // Renderizar lista de camisetas
     function renderTshirts(tshirts) {
       tshirtList.innerHTML = '';
       
@@ -64,7 +106,6 @@ document.addEventListener('DOMContentLoaded', () => {
         tshirtList.appendChild(li);
       });
       
-      // Adicionar event listeners aos botões de exclusão
       document.querySelectorAll('.delete-btn').forEach(button => {
         button.addEventListener('click', async () => {
           const id = button.getAttribute('data-id');

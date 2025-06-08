@@ -70,3 +70,19 @@ body {
   .delete-btn:hover {
     background-color: #c0392b;
   }
+
+  .tshirt-details {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: none;
+  }
+  
+  .tshirt-details h3 {
+    margin-top: 0;
+  }
+  
+  .tshirt-details p {
+    margin: 5px 0;
+  }
